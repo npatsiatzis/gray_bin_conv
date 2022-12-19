@@ -158,7 +158,7 @@ class Monitor(uvm_component):
             self.ap.write(datum)
 
 
-class AluEnv(uvm_env):
+class Env(uvm_env):
 
     def build_phase(self):
         self.seqr = uvm_sequencer("seqr", self)
@@ -176,11 +176,11 @@ class AluEnv(uvm_env):
 
 
 @pyuvm.test()
-class AluTest(uvm_test):
+class Test(uvm_test):
     """Test Bin 2 Gray with random values"""
 
     def build_phase(self):
-        self.env = AluEnv("env", self)
+        self.env = Env("env", self)
 
     def end_of_elaboration_phase(self):
         self.test_all = TestAllSeq.create("test_all")
