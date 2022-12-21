@@ -1,4 +1,5 @@
 from cocotb.triggers import Timer
+from cocotb_coverage import crv
 from pyuvm import *
 import random
 import cocotb
@@ -19,23 +20,22 @@ def gray_to_dec(n):
         n = n >> 1;
     return inv
 
+class crv_inputs(crv.Randomized):
+    def __init__(self,bin):
+        crv.Randomized.__init__(self)
+        self.bin = bin
+        self.add_rand("bin",list(range(2**g_width)))
+
 # Sequence classes
 class SeqItem(uvm_sequence_item):
 
     def __init__(self, name, bin):
         super().__init__(name)
-        self.bin = bin
+        self.i_crv = crv_inputs(bin)
 
     def randomize_operands(self):
-        self.bin = random.randint(0,2**g_width-1)
+        self.i_crv.randomize()
 
-
-    def randomize(self):
-        self.randomize_operands()
-
-    def __eq__(self, other):
-        same = self.bin == other.bin
-        return same
 
 class RandomSeq(uvm_sequence):
     async def body(self):
@@ -43,9 +43,9 @@ class RandomSeq(uvm_sequence):
             data_tr = SeqItem("data_tr", None)
             await self.start_item(data_tr)
             data_tr.randomize_operands()
-            while(data_tr.bin in covered_values):
+            while(data_tr.i_crv.bin in covered_values):
                 data_tr.randomize_operands()
-            covered_values.append(data_tr.bin)
+            covered_values.append(data_tr.i_crv.bin)
             await self.finish_item(data_tr)
 
 
@@ -71,7 +71,7 @@ class Driver(uvm_driver):
         await self.launch_tb()
         while True:
             data = await self.seq_item_port.get_next_item()
-            await self.bfm.send_data(data.bin)
+            await self.bfm.send_data(data.i_crv.bin)
             result = await self.bfm.get_result()
             self.ap.write(result)
             data.result = result
