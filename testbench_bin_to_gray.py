@@ -1,11 +1,7 @@
 import cocotb
-from cocotb.clock import Clock
-from cocotb.triggers import Timer,RisingEdge,FallingEdge,ClockCycles,ReadOnly
-from cocotb.result import TestFailure
+from cocotb.triggers import Timer
 import random
-from cocotb_coverage.coverage import CoverCross,CoverPoint,coverage_db
-from cocotb.binary import BinaryValue
-import numpy as np
+from cocotb_coverage.coverage import CoverPoint,coverage_db
 
 g_width = int(cocotb.top.g_width)
 
@@ -56,5 +52,9 @@ async def test(dut):
 		number_cover(dut)
 		coverage_db["top.bin"].add_threshold_callback(notify_full, 100)
 		assert not (bin_input != gray_to_dec(dut.o_gray.value)),"Actual behavior different than the expected one"
+
+
+	coverage_db.report_coverage(cocotb.log.info,bins=True)
+	coverage_db.export_to_xml(filename="coverage_bin_gray.xml") 
 
 

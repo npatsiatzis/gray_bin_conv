@@ -5,10 +5,17 @@ import random
 import cocotb
 import pyuvm
 from utils import Gray2BinBfm
-
+from cocotb_coverage.coverage import CoverPoint,coverage_db
 
 g_width = int(cocotb.top.g_width)
 covered_values = []
+
+
+# at_least = value is superfluous, just shows how you can determine the amount of times that
+# a bin must be hit to considered covered
+@CoverPoint("top.gray",xf = lambda x : x, bins = list(range(2**g_width)), at_least=1)
+def number_cover(x):
+    pass
 
 
 def bin_to_gray(n):
@@ -79,6 +86,7 @@ class Coverage(uvm_subscriber):
 
     def write(self, data):
         gray = data
+        number_cover(int(gray))
         if(int(gray) not in self.cvg):
             self.cvg.add(int(gray))
 
@@ -183,4 +191,8 @@ class Test(uvm_test):
         self.raise_objection()
         await self.test_all.start()
         await Timer(2,units = 'ns') # to do last transaction
+
+
+        coverage_db.report_coverage(cocotb.log.info,bins=True)
+        coverage_db.export_to_xml(filename="coverage_gray_bin.xml") 
         self.drop_objection()
