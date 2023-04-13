@@ -37,14 +37,16 @@ jobs:
         ghdl --version
         $GHDL --version
     
-    - name: regression
+    - name: regression gray_2_bin
       run: |
-        make gray_2_bin
-        make bin_2_gray
+        cd gray_2_bin/cocotb_sim/ && make gray_2_bin
+    - name: regression bin_2_gray
+      run: |
+        cd bin_2_gray/cocotb_sim/ && make bin_2_gray
       
     - name: Functional Coverage
       run: |
-        var1=$(cat coverage_gray_bin.xml | grep -o -E 'cover_percentage.{0,5}' | head -1 | cut -f2- -d\")
+        cd gray_2_bin/cocotb_sim/ && var1=$(cat coverage_gray_bin.xml | grep -o -E 'cover_percentage.{0,5}' | head -1 | cut -f2- -d\")
         if [ $var1 = 100 ]; then exit 0; else exit 1; fi
-        var2=$(cat coverage_bin_gray.xml | grep -o -E 'cover_percentage.{0,5}' | head -1 | cut -f2- -d\")
+        cd bin_2_gray/cocotb_sim/ && var2=$(cat coverage_bin_gray.xml | grep -o -E 'cover_percentage.{0,5}' | head -1 | cut -f2- -d\")
         if [ $var2 = 100 ]; then exit 0; else exit 1; fi
