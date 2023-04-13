@@ -46,5 +46,5 @@ jobs:
     - name: Functional Coverage
       run: |
         cd gray_2_bin/pyuvm_sim/
-        var2=$(cat coverage_bin_gray.xml | grep -o -E 'cover_percentage.{0,5}' | head -1 | cut -f2- -d\")
+        var2=$(cat coverage_gray_bin.xml | grep -o -E 'cover_percentage.{0,5}' | head -1 | cut -f2- -d\")
         if [ $var2 = 100 ]; then exit 0; else exit 1; fi
