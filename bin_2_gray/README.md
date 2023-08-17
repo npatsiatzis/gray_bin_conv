@@ -6,7 +6,7 @@
 ### RTL implementation for gray to binary and vice versa code conversion
 
 
--- Gray to Binary conversion direction
+-- Binary to Gray conversion direction
 -- RTL code in:
 - [VHDL](https://github.com/npatsiatzis/gray_bin_conv/tree/main/bin_2_gray/rtl/VHDL)
 
