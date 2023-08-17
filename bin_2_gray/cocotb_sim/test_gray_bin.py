@@ -17,7 +17,7 @@ def test_bin_gray(parameter):
     module = "testbench_bin_to_gray"
     toplevel = "bin_to_gray"   
     vhdl_sources = [
-    os.path.join(rtl_dir, "../rtl/bin_to_gray.vhd"),
+    os.path.join(rtl_dir, "../rtl/VHDL/bin_to_gray.vhd"),
     ]
 
 

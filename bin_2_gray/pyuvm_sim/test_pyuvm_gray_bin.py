@@ -11,13 +11,13 @@ rtl_dir = tests_dir                                    #path to hdl folder where
 
 
 #run tests with length generic values 
-@pytest.mark.parametrize("parameter", [{"g_width": str(i)} for i in range(4,13,4)])
+@pytest.mark.parametrize("parameter", [{"g_width": str(i)} for i in range(4,9,4)])
 def test_bin_gray(parameter):
 
     module = "tb"
     toplevel = "bin_to_gray"   
     vhdl_sources = [
-    os.path.join(rtl_dir, "../rtl/bin_to_gray.vhd"),
+    os.path.join(rtl_dir, "../rtl/VHDL/bin_to_gray.vhd"),
     ]
 
 

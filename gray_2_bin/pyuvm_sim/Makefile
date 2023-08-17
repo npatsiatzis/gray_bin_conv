@@ -6,13 +6,20 @@ TOPLEVEL_LANG ?= vhdl
 EXTRA_ARGS += --std=08
 SIM_ARGS += --wave=wave.ghw
 
-VHDL_SOURCES += $(PWD)/../rtl/gray_to_bin.vhd
+VHDL_SOURCES += $(PWD)/../rtl/VHDL/gray_to_bin.vhd
 # use VHDL_SOURCES for VHDL files
 
 
 gray_2_bin:
 		rm -rf sim_build
 		$(MAKE) sim MODULE=tb TOPLEVEL=gray_to_bin
+
+clean_dir:
+		rm -f wave.*
+		rm -f *.o 
+		rm -f *.xml
+		find . -maxdepth 1 -type f -executable -exec rm {} +
+		find -mindepth 1 -maxdepth 1 -type d -print0 | xargs -r0 rm -R
 
 clean_dir:
 		rm -f wave.*

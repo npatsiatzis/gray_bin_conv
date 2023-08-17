@@ -6,7 +6,7 @@ TOPLEVEL_LANG ?= vhdl
 EXTRA_ARGS += --std=08
 SIM_ARGS += --wave=wave.ghw
 
-VHDL_SOURCES += $(PWD)/../rtl/bin_to_gray.vhd
+VHDL_SOURCES += $(PWD)/../rtl/VHDL/bin_to_gray.vhd
 # use VHDL_SOURCES for VHDL files
 
 bin_2_gray:
